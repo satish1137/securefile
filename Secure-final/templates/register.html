@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<div class="project-title">
+    🔐 Secure Cloud <span>File Sharing System</span>
+</div>
+
+<div class="container">
+    <h2>Create Account</h2>
+
+    <form method="post">
+
+        <!-- USERNAME -->
+        <input name="username" placeholder="Username" required>
+
+        <!-- PASSWORD -->
+        <div class="input-box">
+            <input name="password" type="password" id="pass" placeholder="Password" onkeyup="checkStrength()" required>
+            
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="input-box">
+            <input name="confirm_password" type="password" id="confirm" placeholder="Confirm Password" required>
+            
+        </div>
+
+        <!-- STRENGTH -->
+        <p id="strength"></p>
+
+        <button>Create Account</button>
+    </form>
+
+    <div class="switch">
+        Already have account? <a href="/login">Login</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if "user_exists" in messages %}
+    <p class="error">Username already exists ❌</p>
+    {% endif %}
+    {% if "password_mismatch" in messages %}
+<p class="error">Passwords do not match ❌</p>
+{% endif %}
+
+    {% if "account_created" in messages %}
+    <script>
+    Swal.fire({
+        title: "Account Created!",
+        icon: "success"
+    });
+
+    setTimeout(()=>{
+        window.location.href="/login";
+    },1500);
+    </script>
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+<script>
+function togglePassword(id) {
+    let field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+}
+
+function checkStrength() {
+    let pass = document.getElementById("pass").value;
+    let text = document.getElementById("strength");
+
+    if (pass.length < 6) {
+        text.innerHTML = "Weak 🔴";
+        text.style.color = "red";
+    } else if (/[A-Z]/.test(pass) && /[0-9]/.test(pass)) {
+        text.innerHTML = "Strong 🟢";
+        text.style.color = "lime";
+    } else {
+        text.innerHTML = "Medium 🟡";
+        text.style.color = "orange";
+    }
+}
+document.querySelector("form").onsubmit = function() {
+    let p1 = document.getElementById("pass").value;
+    let p2 = document.getElementById("confirm").value;
+
+    if (p1 !== p2) {
+        Swal.fire({
+            title: "Error!",
+            text: "Passwords do not match ❌",
+            icon: "error"
+        });
+        return false;
+    }
+};
+</script>
+
+</body>
+</html>

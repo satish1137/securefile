@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="project-title">
+    🔐 Secure Cloud <span>File Sharing System</span>
+</div>
+
+<div class="container">
+    <h2>Welcome Back 👋</h2>
+
+    <form method="post">
+
+        <!-- USERNAME -->
+        <div class="input-group">
+            <input name="username" type="username" placeholder="Username" required>
+            
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-group input-box">
+            <input name="password" type="password" id="pass" placeholder="Password" required>
+            
+          
+        </div>
+
+        <!-- LOGIN BUTTON -->
+        <button class="login-btn">Login</button>
+    </form>
+
+    <!-- DIVIDER -->
+    <div class="divider">OR</div>
+
+    <!-- SOCIAL LOGIN -->
+   <div class="social-icons">
+    <a href="#"><i class="fab fa-google"></i></a>
+    <a href="#"><i class="fab fa-github"></i></a>
+</div>
+
+    <!-- SWITCH -->
+    <div class="switch">
+        Don't have account? <a href="/register">Register</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if "login_error" in messages %}
+    <p class="error">Invalid Username or Password ❌</p>
+    {% endif %}
+
+    {% if "account_created" in messages %}
+    <script>
+    Swal.fire({
+        title: "Account Created!",
+        text: "Login to continue 🚀",
+        icon: "success",
+        confirmButtonColor: "#00c6ff"
+    });
+    </script>
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+<script>
+function togglePassword() {
+    let field = document.getElementById("pass");
+    field.type = field.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>
